@@ -1,0 +1,39 @@
+body {
+    background: #121212;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color:white;
+}
+
+.app {
+    width: 40vw;
+}
+
+.actions-container {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    margin: 2rem auto;
+}
+
+.action-container .likes {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.action-container * {
+    display: block;
+}
+
+h1 {
+    color: #28c953;
+    text-align: center;
+}
+
+#top-joke {
+    border-radius: 15px;
+    border: 4px solid blue;
+    padding: 1rem 0.5rem 2rem;
+}

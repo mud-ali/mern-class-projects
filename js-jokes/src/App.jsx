@@ -8,26 +8,28 @@ const App = () => {
     const [myJokes, setMyJokes] = useState([...jokes]);
 
     return (
-        <>
+        <div className="app">
             <h1>Javascript Jokes</h1>
             <div id="joke-container">
                 {
                     myJokes[jokeNum]?.joke ?? myJokes?.toString()
                 }
-                <div id="likes" onClick={()=>{
-                    setMyJokes(myJokes.map((joke, i) => {
-                        return i === jokeNum ? { ...joke, likes: joke.likes + 1} : {...joke}
-                    }))
-                }}>
-                    ❤️ {
-                        myJokes[jokeNum]?.likes
-                    }
+                <div className="actions-container">
+                    <div className="likes" onClick={()=>{
+                        setMyJokes(myJokes.map((joke, i) => {
+                            return i === jokeNum ? { ...joke, likes: joke.likes + 1} : {...joke}
+                        }))
+                    }}>
+                        ❤️ {
+                            myJokes[jokeNum]?.likes
+                        }
+                    </div>
+                    <button onClick={()=>setJokeNum((jokeNum + 1) % jokes.length) }>
+                        Next Joke
+                    </button>
                 </div>
             </div>
 
-            <button onClick={()=>setJokeNum((jokeNum + 1) % jokes.length) }>
-                Next Joke
-            </button>
 
             <div id="top-joke">
                 <h2>
@@ -36,14 +38,12 @@ const App = () => {
                 {
                     // get the most liked joke by sorting in reverse by likes
                     myJokes.toSorted((a,b)=> b.likes - a.likes)[0].joke
-                }
-                <br />
-                ❤️ {
+                } <span>&nbsp; ❤️</span> {
                     myJokes.toSorted((a,b)=> b.likes - a.likes)[0].likes
                 }
             </div>
 
-        </>
+        </div>
     )
 }
 
