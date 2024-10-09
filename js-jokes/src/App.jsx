@@ -12,7 +12,7 @@ const App = () => {
             <h1>Javascript Jokes</h1>
             <div id="joke-container">
                 {
-                    myJokes[jokeNum]?.joke ?? myJokes?.toString()
+                    myJokes[jokeNum].joke
                 }
                 <div className="actions-container">
                     <div className="likes" onClick={()=>{
@@ -21,10 +21,13 @@ const App = () => {
                         }))
                     }}>
                         ❤️ {
-                            myJokes[jokeNum]?.likes
+                            myJokes[jokeNum].likes
                         }
                     </div>
-                    <button onClick={()=>setJokeNum((jokeNum + 1) % jokes.length) }>
+                    <button onClick={()=>setJokeNum((jokeNum + Math.ceil(Math.random() * myJokes.length)) % myJokes.length) }>
+                        Random Joke
+                    </button>
+                    <button onClick={()=>setJokeNum((jokeNum + 1) % myJokes.length) }>
                         Next Joke
                     </button>
                 </div>
