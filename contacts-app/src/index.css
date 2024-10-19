@@ -36,7 +36,7 @@ button {
 }
 
 .contact-table {
-  width: 400px;
+  width: 430px;
   border-collapse: collapse;
   border-radius: 10px;
   overflow: hidden;
@@ -48,7 +48,7 @@ button {
   background-color: #1abc9c;
   color: #fff;
   padding: 8px;
-  text-align: left;
+  text-align: center;
 }
 
 .contact-table td {
@@ -71,6 +71,10 @@ button {
 
 .search-input {
   width: 350px;
+}
+
+.err {
+    width: 100%;
 }
 
 @media (max-width: 480px) {
