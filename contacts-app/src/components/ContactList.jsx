@@ -40,8 +40,8 @@ const ContactList = ({contacts}) => {
                     {
                         contacts.filter(
                             contact =>
-                                contact.name.toLowerCase().includes(searchTerm) ||
-                                contact.email.toLowerCase().includes(searchTerm) ||
+                                contact.name?.toLowerCase().includes(searchTerm) ||
+                                contact.email?.toLowerCase().includes(searchTerm) ||
                                 searchTerm.trim() === ""
                         ).length === 0 ?
                             <tr className="green-row">

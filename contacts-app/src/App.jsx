@@ -27,7 +27,7 @@ const App = () => {
             return false;
         }
 
-        return [name.trim(), email.trim()];
+        return name.trim();
     }
 
     const addContact = (e, newName, newEmail) => {
