@@ -1,6 +1,7 @@
 import { useState } from "react";
+import Contact from "./Contact"
 
-const ContactList = ({contacts}) => {
+const ContactList = ({contacts, deleteContact}) => {
     const [searchTerm, setSearchTerm] = useState("");
 
     const searchContacts = (e) => {
@@ -19,6 +20,7 @@ const ContactList = ({contacts}) => {
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,12 +30,9 @@ const ContactList = ({contacts}) => {
                                 contact.name.toLowerCase().includes(searchTerm) ||
                                 contact.email.toLowerCase().includes(searchTerm) ||
                                 searchTerm.trim() === ""
-                        ).map((contact, index) => {
+                        ).map((contact) => {
                             return (
-                                <tr key={contact.id} className={index % 2 === 0 ? "green-row" : "green-row-dark"}>
-                                    <td>{contact.name}</td>
-                                    <td>{contact.email}</td>
-                                </tr>
+                                <Contact key={contact.id} contact={contact} deleteContact={deleteContact} contactsList={contacts}/>
                             )
                         })
                     }
@@ -45,7 +44,7 @@ const ContactList = ({contacts}) => {
                                 searchTerm.trim() === ""
                         ).length === 0 ?
                             <tr className="green-row">
-                                <td colSpan={2} className="err">
+                                <td colSpan={3} className="err">
                                     No results found
                                 </td>
                             </tr>

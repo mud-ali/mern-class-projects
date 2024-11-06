@@ -75,6 +75,21 @@ button {
 
 .err {
     width: 100%;
+    text-align: center;
+}
+
+.delete-button {
+    background: red;
+    color:white;
+    font-weight: bold;
+    transition: 0.3s;
+    filter: opacity(0.8);
+}
+
+.delete-button:hover {
+    filter: opacity(1);
+    transform: scale(0.95);
+    outline: 1px solid black;
 }
 
 @media (max-width: 480px) {

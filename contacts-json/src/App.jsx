@@ -1,17 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddContact from "./components/AddContact";
 import "./index.css";
 import ContactList from "./components/ContactList";
+import contactService from "./services/contacts"
 
 const App = () => {
 
-    const [contacts, setContacts] = useState([
-        { name: "John Doe", id: 1, email: "johndoe@gmail.com" },
-        { name: "Jane Smith", id: 2, email: "janesmith@gmail.com" },
-        { name: "Michael Johnson", id: 3, email: "michaeljohnson@gmail.com" },
-        { name: "Emily Davis", id: 4, email: "emilydavis@gmail.com" },
-        { name: "David Brown", id: 5, email: "davidbrown@gmail.com" }
-    ]);
+    const [contacts, setContacts] = useState([]);
+
+    useEffect(()=>{
+        contactService.getContacts().then(data => setContacts(data));
+    }, [])
 
     const validateContactDetails = (name, email) => {
         if (name.trim() === "") {
@@ -22,31 +21,45 @@ const App = () => {
             alert("Email field required and must follow the format of something@something.something")
             return false;
         }
-        if (contacts.filter(c => c.name === name.trim()).length) {
-            alert("That contact already exists");
-            return false;
-        }
 
         return name.trim();
     }
 
-    const addContact = (e, newName, newEmail) => {
+    const newContact = async (e, newName, newEmail) => {
         e.preventDefault();
         
         const parsedName = validateContactDetails(newName, newEmail);
         if (!parsedName) return;
 
-        const newId = contacts.length + 1;
-        setContacts([
-            ...contacts,
-            { name: parsedName, id: newId, email: newEmail}
-        ]);
+        const existingContacts = contacts.filter(c => c.name === parsedName.trim());
+        let newContactInfo = {
+            name: parsedName,
+            email: newEmail
+        };
+
+        if (existingContacts.length > 0) {
+            newContactInfo.id = existingContacts[0].id;
+            await contactService.updateContact(newContactInfo);
+        } else {
+            newContactInfo.id = contacts.toSorted((a,b)=>b.id - a.id)[0] + 1;
+            await contactService.addContact(newContactInfo)
+        }
+
+        contactService.getContacts().then(data => setContacts(data));
+    }
+
+    const handleDelete = (contact) => {
+        if (!confirm(`Are you sure you want to delete the contact for ${contact.name}`)) return;
+
+        contactService.deleteContact(contact).then((det)=>{
+            contactService.getContacts().then(data => setContacts(data));
+        });
     }
 
     return (
         <div className="contacts-app">
-            <AddContact addContact={addContact} />
-            <ContactList contacts={contacts} />
+            <AddContact addContact={newContact} />
+            <ContactList contacts={contacts} deleteContact={handleDelete} />
         </div>
     );
 };
