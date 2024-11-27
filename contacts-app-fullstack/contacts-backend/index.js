@@ -8,7 +8,7 @@ app.use(express.json())
 
 app.use(cors())
 
-const PORT = process.env.PORT ?? 4343;
+const PORT = process.env.PORT || 4343;
 
 let contacts = [
     { id: 1, name: "John Doe", email: "john@example.com" },
