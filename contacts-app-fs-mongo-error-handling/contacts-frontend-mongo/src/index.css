@@ -92,6 +92,15 @@ button {
     outline: 1px solid black;
 }
 
+#error-modal {
+    background-color: red;
+    color: white;
+    border-radius: 0.25em;
+    padding: 0.5em;
+    font-weight: bold;
+    text-align:center;
+}
+
 @media (max-width: 480px) {
     form {
         flex-direction: column;

@@ -3,8 +3,11 @@ import AddContact from "./components/AddContact";
 import "./index.css";
 import ContactList from "./components/ContactList";
 import contactService from "./services/contacts"
+import ErrorModal from "./components/Error";
 
 const App = () => {
+
+    const [error, setError] = useState("");
 
     const [contacts, setContacts] = useState([]);
 
@@ -14,11 +17,11 @@ const App = () => {
 
     const validateContactDetails = (name, email) => {
         if (name.trim() === "") {
-            alert("Name length must be greater than 0 and should not be just spaces")
+            setError("Name length must be greater than 0 and should not be just spaces")
             return false;
         }
         if (email.trim() === "") {
-            alert("Email field required and must follow the format of something@something.something")
+            setError("Email field required and must follow the format of something@something.something")
             return false;
         }
 
@@ -29,7 +32,10 @@ const App = () => {
         e.preventDefault();
         
         const parsedName = validateContactDetails(newName, newEmail);
-        if (!parsedName) return;
+        if (!parsedName) {
+            setError("Name does not meet criteria")
+            return;
+        }
 
         const existingContacts = contacts.filter(c => c.name === parsedName.trim());
         let newContactInfo = {
@@ -37,15 +43,21 @@ const App = () => {
             email: newEmail
         };
 
-        if (existingContacts.length > 0) {
-            newContactInfo.id = existingContacts[0].id;
-            await contactService.updateContact(newContactInfo);
-        } else {
-            newContactInfo.id = contacts.toSorted((a,b)=>b.id - a.id)[0] + 1;
-            await contactService.addContact(newContactInfo)
-        }
+        try {
+            if (existingContacts.length > 0) {
+                newContactInfo.id = existingContacts[0].id;
+                await contactService.updateContact(newContactInfo);
+            } else {
 
-        contactService.getContacts().then(data => setContacts(data));
+                newContactInfo.id = "" + ((Number(contacts.toSorted((a, b) => b.id - a.id)[0]) + 1) || 0);
+                await contactService.addContact(newContactInfo)
+            }
+
+            contactService.getContacts().then(data => setContacts(data));
+        } catch (e) {
+            console.log(e)
+            setError(e)
+        }
     }
 
     const handleDelete = (contact) => {
@@ -58,6 +70,7 @@ const App = () => {
 
     return (
         <div className="contacts-app">
+            <ErrorModal error={error}/>
             <AddContact addContact={newContact} />
             <ContactList contacts={contacts} deleteContact={handleDelete} />
         </div>

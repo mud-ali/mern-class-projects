@@ -12,8 +12,25 @@ mongoose
     });
 
 const contactSchema = new mongoose.Schema({
-    name: String,
-    email: String,
+    name: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function(v) {
+                return v.trim().length >= 2;
+            }
+        }
+    },
+    email: {
+        type: String,
+        required: true,
+        validate: {
+            validator: function(v) {
+                return /[a-z|A-Z|0-9]+@[a-z]+\.[a-z]+/.test(v);
+            },
+            message: props => `${props.value} is not a valid email address`
+        }
+    }
 });
 
 // configure toJSON method

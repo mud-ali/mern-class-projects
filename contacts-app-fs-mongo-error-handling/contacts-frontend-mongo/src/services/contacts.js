@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "/api/contacts";
+const baseURL = "http://localhost:4343/api/contacts";
 
 const getContacts = () => {
     return axios.get(baseURL).then((res) => res.data);
