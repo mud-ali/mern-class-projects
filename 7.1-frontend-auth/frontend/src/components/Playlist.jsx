@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import playlistService from '../services/playlistService';
 
-const Playlist = ({ data, handleLike }) => {
+const Playlist = ({ data, handleLike, handleDelete }) => {
     const [showDetails, setShowDetails] = useState(false);
 
     const toggleDetails = () => {
@@ -16,8 +15,11 @@ const Playlist = ({ data, handleLike }) => {
                     <p className="text-sm text-gray-600">Created by: {data.creator}</p>
                     <p className="text-sm">Songs: {data.numOfSongs ?? 0}</p>
                     <p className="text-sm">Likes: {data.likes}</p>
-                    <button className="text-red-400" onClick={()=>handleLike(data.id)}>
+                    <button className="text-white font-bold" onClick={()=>handleLike(data.id)}>
                         Like
+                    </button>
+                    <button className="text-red-400 font-bold" onClick={() => handleDelete(data.id)}>
+                        Delete
                     </button>
                     <button 
                         className="mt-2 px-4 py-2 bg-blue-500 text-white rounded-md"

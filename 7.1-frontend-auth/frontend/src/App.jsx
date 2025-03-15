@@ -88,6 +88,11 @@ function App() {
         fetchPlaylists();
     }
 
+    const handleDelete = async (id) => {
+        await playlistService.deletePlaylist(id, userObject.token)
+        fetchPlaylists();
+    }
+
     return (
         <div>
             
@@ -104,7 +109,7 @@ function App() {
                         <Section componentTitle={"Playlists"}>
                             {
                                 playlists.map((playlist) => (
-                                    <Playlist key={playlist.id} data={playlist} handleLike={handleLike}/>
+                                    <Playlist key={playlist.id} data={playlist} handleLike={handleLike} handleDelete={handleDelete}/>
                                 ))
                             }
                         </Section>

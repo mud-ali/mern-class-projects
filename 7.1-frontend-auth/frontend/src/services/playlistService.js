@@ -21,4 +21,14 @@ const likePlaylist = async (id) => {
     return response.data;
 }
 
-export default { getPlaylists, addPlaylist, likePlaylist };
+const deletePlaylist = async (id, token) => {
+    const authorization = {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    };
+    const response = await axios.delete(`${API_URL}/${id}`, authorization);
+    return response.data;
+}
+
+export default { getPlaylists, addPlaylist, likePlaylist, deletePlaylist };

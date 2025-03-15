@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 button {
-    @apply border-2 border-gray-400 p-3 rounded-lg bg-gray-300 hover:scale-95 transition-all hover:cursor-crosshair
+    @apply border-2 border-gray-400 p-2 rounded-lg bg-gray-300 hover:scale-95 transition-all hover:cursor-pointer mx-2
 }
 
 .notif-info {
