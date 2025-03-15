@@ -1,0 +1,1 @@
+To run this app, make sure to start the backend found in 6.2-playlist-auth.

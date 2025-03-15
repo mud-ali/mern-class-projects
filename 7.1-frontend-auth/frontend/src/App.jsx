@@ -6,6 +6,8 @@ import GreetingLogout from "./components/GreetingLogout";
 import Login from "./components/Login";
 import Notification from "./components/Notification";
 import loginService from "./services/loginService";
+import Section from "./components/Section";
+import PlaylistForm from "./components/PlaylistForm";
 
 function App() {
     const [playlists, setPlaylists] = useState([]);
@@ -15,6 +17,10 @@ function App() {
     const [password, setPassword] = useState("");
 
     const [userObject, setUserObject] = useState(null);
+
+    const [playlistName, setPlaylistName] = useState("")
+    const [creator, setCreator] = useState("");
+    const [numSongs, setNumSongs] = useState(0);
 
 
     useEffect(() => {
@@ -41,6 +47,7 @@ function App() {
             setMessage({ message: "Login Successfull", type: "info" });
             setUserObject(user);
             localStorage.setItem("user", JSON.stringify(user));
+            fetchPlaylists()
         } catch (error) {
             setMessage({ message: "Invalid Credentials", type: "warning" });
             console.log(error)
@@ -57,6 +64,24 @@ function App() {
         setUserObject(null);
     };
 
+    const handlePlaylist = async (e) => {
+        e.preventDefault();
+        const playlist = { name: playlistName, creator: creator, numOfSongs: numSongs, likes: 0};
+        try {
+            const created = await playlistService.addPlaylist(playlist, userObject.token);
+            setMessage({
+                message: `${created.names} is added`,
+                type: "info",
+            });
+            fetchPlaylists();
+        } catch (error) {
+            setMessage({ message: "Failed to add playlist", type: "warning" });
+        }
+        setPlaylistName("");
+        setCreator("");
+        setNumSongs(0);
+    }
+
     return (
         <div>
             <Notification notification={message} />
@@ -69,13 +94,26 @@ function App() {
             </h2>
             {
                 userObject ?
-                    <div className="mx-auto text-center">
-                        {
-                            playlists.map((playlist) => (
-                                <Playlist key={playlist.id} data={playlist} />
-                            ))
-                        }
-                    </div>
+                    <>
+                        <Section componentTitle={"Playlists"}>
+                            {
+                                playlists.map((playlist) => (
+                                    <Playlist key={playlist.id} data={playlist} />
+                                ))
+                            }
+                        </Section>
+                        <Section componentTitle={"Add a Playlist"}>
+                            <PlaylistForm 
+                                handlePlaylist={handlePlaylist}
+                                name={playlistName}
+                                setName={setPlaylistName}
+                                creator={creator}
+                                setCreator={setCreator}
+                                numSongs={numSongs}
+                                setNumSongs={setNumSongs}
+                            />
+                        </Section>
+                    </>
                     :
                     (
                         <Login

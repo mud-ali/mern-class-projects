@@ -13,7 +13,6 @@ const Login = ({
                     type="text"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    className="border-2 border-gray my-6 mx-2"                    
                 />
             </div>
             <div>
@@ -22,7 +21,6 @@ const Login = ({
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                        className="border-2 border-gray my-6 mx-2"
                 />
             </div>
             <button type="submit">Log In</button>
