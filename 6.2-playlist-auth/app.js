@@ -6,15 +6,19 @@ const { MONGODB_URI } = require("./utils/config");
 const app = express();
 const playlistRouter = require("./routes/playlist");
 const userRouter = require("./routes/user");
-const { requestLogger, errorHandler } = require("./utils/middleware");
+const loginRouter = require("./routes/login");
+const { requestLogger, errorHandler, tokenExtractor, getUser } = require("./utils/middleware");
 
 app.use(cors());
 app.use(express.json());
+app.use(requestLogger);
+app.use(tokenExtractor);
+app.use(getUser);
+app.use(errorHandler);
+
 app.use("/api/playlists", playlistRouter);
 app.use("/api/users", userRouter);
-app.use(requestLogger);
-
-app.use(errorHandler);
+app.use("/api/login", loginRouter);
 
 mongoose.connect(MONGODB_URI).then(() => {
     logger.log("Connected to Database");

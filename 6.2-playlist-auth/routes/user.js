@@ -24,17 +24,9 @@ userRouter.post("/", async (req, res) => {
 });
 
 userRouter.get("/", async (req, res) => {
-    const { username } = req.body;
-    if (!username) {
-        const users = await User.find({}).populate("playlists");
-        return res.status(200).json(users);
-    }
+    const users = await User.find({}).populate("playlists", { name: 1, creator: 1, numOfSongs: 1, likes: 1 });
+    return res.status(200).json(users);
 
-    const user = await User.findOne({ username }).populate("playlists");
-    if (!user) {
-        return res.status(404).json({ error: "User not found" });
-    }
-    res.json(user);
 });
 
 module.exports = userRouter;
