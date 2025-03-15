@@ -12,7 +12,7 @@ const requestLogger = (req, res, next) => {
 
 // middleware for error handling
 const errorHandler = (error, req, res, next) => {
-    logger.error("error message: ", error.message);
+    logger.error("error message: " + error);
     if (error.name === "CastError") {
         return res.status(400).json({ error: "invalid id" });
     } else if (error.name === "ValidationError") {

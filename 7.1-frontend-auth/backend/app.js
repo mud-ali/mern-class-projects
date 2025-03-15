@@ -14,11 +14,11 @@ app.use(express.json());
 app.use(requestLogger);
 app.use(tokenExtractor);
 app.use(getUser);
-app.use(errorHandler);
 
 app.use("/api/playlists", playlistRouter);
 app.use("/api/users", userRouter);
 app.use("/api/login", loginRouter);
+app.use(errorHandler);
 
 mongoose.connect(MONGODB_URI).then(() => {
     logger.log("Connected to Database");

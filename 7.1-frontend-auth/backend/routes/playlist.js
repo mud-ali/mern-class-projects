@@ -2,6 +2,7 @@ const express = require("express");
 const playlistRouter = express.Router();
 const Playlist = require("../models/playlist");
 const User = require("../models/user");
+const logger = require("../utils/logger");
 
 playlistRouter.get("/", async (req, res, next) => {
     try {

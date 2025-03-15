@@ -12,7 +12,12 @@ const addPlaylist = async (playlist, token) => {
             Authorization: `Bearer ${token}`,
         },
     };
-    const response = await axios.post(API_URL, playlist, authorization);
-    return response.data;
+    // try {
+        const response = await axios.post(API_URL, playlist, authorization);
+        return response.data;
+    // } catch (err) {
+    //     console.error(err);
+    //     throw new Error(err.response.data.error);
+    // }
 };
 export default {getPlaylists, addPlaylist};

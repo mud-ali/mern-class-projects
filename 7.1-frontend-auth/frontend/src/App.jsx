@@ -75,8 +75,9 @@ function App() {
             });
             fetchPlaylists();
         } catch (error) {
-            setMessage({ message: "Failed to add playlist", type: "warning" });
+            setMessage({ message: "Failed to add playlist. "+error.response.data.error, type: "warning" });
         }
+        setTimeout(()=>{setMessage(null)}, 3000)
         setPlaylistName("");
         setCreator("");
         setNumSongs(0);
@@ -84,7 +85,7 @@ function App() {
 
     return (
         <div>
-            <Notification notification={message} />
+            
 
             {userObject && (
                 <GreetingLogout userObject={userObject} handleLogout={handleLogout} />
@@ -94,7 +95,7 @@ function App() {
             </h2>
             {
                 userObject ?
-                    <>
+                    <div className="flex flex-row justify-around items-center">
                         <Section componentTitle={"Playlists"}>
                             {
                                 playlists.map((playlist) => (
@@ -113,7 +114,7 @@ function App() {
                                 setNumSongs={setNumSongs}
                             />
                         </Section>
-                    </>
+                    </div>
                     :
                     (
                         <Login
@@ -125,7 +126,7 @@ function App() {
                         />
                     )
             }
-
+            <Notification notification={message} />
         </div>
     );
 }
