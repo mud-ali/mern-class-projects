@@ -1,7 +1,7 @@
-const Playlist = ({playlist}) => {
+const Playlist = ({data}) => {
     return (
         <div>
-            Playlist: {playlist.name}, created by {playlist.creator}
+            Playlist: {data.name}, created by {data.creator}
         </div>
     )
 }
