@@ -83,6 +83,11 @@ function App() {
         setNumSongs(0);
     }
 
+    const handleLike = async (id) => {
+        await playlistService.likePlaylist(id);
+        fetchPlaylists();
+    }
+
     return (
         <div>
             
@@ -99,7 +104,7 @@ function App() {
                         <Section componentTitle={"Playlists"}>
                             {
                                 playlists.map((playlist) => (
-                                    <Playlist key={playlist.id} data={playlist} />
+                                    <Playlist key={playlist.id} data={playlist} handleLike={handleLike}/>
                                 ))
                             }
                         </Section>

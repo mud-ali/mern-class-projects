@@ -12,12 +12,13 @@ const addPlaylist = async (playlist, token) => {
             Authorization: `Bearer ${token}`,
         },
     };
-    // try {
-        const response = await axios.post(API_URL, playlist, authorization);
-        return response.data;
-    // } catch (err) {
-    //     console.error(err);
-    //     throw new Error(err.response.data.error);
-    // }
+    const response = await axios.post(API_URL, playlist, authorization);
+    return response.data;
 };
-export default {getPlaylists, addPlaylist};
+
+const likePlaylist = async (id) => {
+    const response = await axios.post(`${API_URL}/${id}/like`);
+    return response.data;
+}
+
+export default { getPlaylists, addPlaylist, likePlaylist };

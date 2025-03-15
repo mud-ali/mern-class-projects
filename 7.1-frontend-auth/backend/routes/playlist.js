@@ -59,4 +59,18 @@ playlistRouter.delete("/:id", async (req, res, next) => {
     }
 });
 
+playlistRouter.post("/:id/like", async (req, res, next) => {
+    try {
+        const playlist = await Playlist.findById(req.params.id);
+        if (!playlist) return res.status(404).json({ error: "playlist not found" });
+
+        playlist.likes += 1;
+        await playlist.save();
+
+        res.status(200).json({ message: "Playlist liked successfully" });
+    } catch (error) {
+        next(error);
+    }
+});
+
 module.exports = playlistRouter;
